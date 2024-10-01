@@ -52,12 +52,16 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeMain(modifier: Modifier = Modifier) {
-    Box(modifier = Modifier.fillMaxSize()) {
+fun HomeMain(modifier: Modifier = Modifier,
+             showProfile: Boolean = true,
+             showTodayReport: Boolean = true,
+             menus: ArrayList<String> = arrayListOf("메뉴1", "메뉴2", "메뉴3", "메뉴4"),
+             column: Int = 2) {
+    Box(modifier = modifier.fillMaxSize()) {
         Column {
-            ProfileSection()
-            TodayReportSection()
-            HomeMenu()
+            if (showProfile) ProfileSection()
+            if (showTodayReport) TodayReportSection()
+            HomeMenu(menus, column)
         }
         BottomTabs(modifier = Modifier.align(Alignment.BottomStart))
     }
@@ -96,11 +100,10 @@ fun TodayReportSection() {
 }
 
 @Composable
-fun HomeMenu() {
-    val list = arrayListOf("메뉴1", "메뉴2", "메뉴3", "메뉴4")
+fun HomeMenu(list: ArrayList<String>, column: Int = 2) {
     LazyVerticalGrid(
         modifier = Modifier.padding(8.dp),
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(column),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)) {
         items(list) {
@@ -109,7 +112,6 @@ fun HomeMenu() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .padding(horizontal = 8.dp)
             ) {
                 Text(modifier = Modifier
                     .fillMaxWidth()
@@ -163,12 +165,42 @@ fun BottomTabs(modifier: Modifier) {
     }
 }
 
-@Preview("Home list detail screen", widthDp = 360, heightDp = 600)
+@Preview("Home 1", widthDp = 360, heightDp = 600)
 @Composable
-fun GreetingPreview() {
+fun Home() {
     MyApplicationTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             HomeMain(Modifier.padding(innerPadding))
         }
     }
 }
+@Preview("Home 2", widthDp = 360, heightDp = 600)
+@Composable
+fun HomeNoProfile() {
+    MyApplicationTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            HomeMain(modifier = Modifier.padding(innerPadding), showProfile = false)
+        }
+    }
+}
+@Preview("Home 3", widthDp = 360, heightDp = 600)
+@Composable
+fun HomeNoTodayReport() {
+    MyApplicationTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            HomeMain(modifier = Modifier.padding(innerPadding), showTodayReport = false)
+        }
+    }
+}
+@Preview("Home 2", widthDp = 360, heightDp = 600)
+@Composable
+fun HomeFullMenu() {
+    MyApplicationTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            HomeMain(modifier = Modifier.padding(innerPadding),
+                menus = arrayListOf("메뉴1", "메뉴2", "메뉴3", "메뉴4",
+                    "메뉴5", "메뉴6", "메뉴7", "메뉴8"), column = 3)
+        }
+    }
+}
+
