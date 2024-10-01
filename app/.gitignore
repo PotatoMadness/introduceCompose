@@ -1,0 +1,9 @@
+/build
+/captures
+.idea/*
+/local.properties
+.DS_Store
+.externalNativeBuild
+local.properties
+.grdle
+*.iml
